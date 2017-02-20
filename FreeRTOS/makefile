@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -20,13 +20,14 @@ ORDERED_OBJS += \
 "./timer_if.obj" \
 "./uart_if.obj" \
 "./Source/HelperClasses/ini.obj" \
+"./Source/HelperClasses/parserIni.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--llibc.a \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/oslib/ccs/free_rtos/free_rtos.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/OS/simplelink.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/netapps/mqtt/ccs/client/mqtt.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/driverlib.a" \
+-l"libc.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/mqtt_client/ccs/../../../oslib/ccs/free_rtos/free_rtos.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/mqtt_client/ccs/../../../simplelink/ccs/OS/simplelink.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/mqtt_client/ccs/../../../netapps/mqtt/ccs/client/mqtt.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/mqtt_client/ccs/../../../driverlib/ccs/Release/driverlib.a" \
 
 -include ../makefile.init
 
@@ -59,9 +60,6 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
-endif
-ifneq ($(strip $(SV7A_DEPS)),)
--include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -154,14 +152,14 @@ all: domotica_mqtt_client_1.2.0.out
 domotica_mqtt_client_1.2.0.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=fpalib --abi=eabi -me -g --gcc --define=ccs --define=USE_FREERTOS --define=SL_PLATFORM_MULTI_THREADED --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"domotica_mqtt_client_1.2.0.map" --heap_size=0x8000 --stack_size=0x5000 -i"C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS/lib" -i"C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="domotica_mqtt_client_1.2.0_linkInfo.xml" --rom_model -o "domotica_mqtt_client_1.2.0.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/armcl" -mv7M4 --code_state=16 --float_support=fpalib --abi=eabi -me -g --gcc --define=ccs --define=USE_FREERTOS --define=SL_PLATFORM_MULTI_THREADED --define=cc3200 --diag_warning=225 --display_error_number --diag_wrap=off -z -m"domotica_mqtt_client_1.2.0.map" --heap_size=0x8000 --stack_size=0x5000 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/lib" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/include" --reread_libs --warn_sections --diag_wrap=off --display_error_number --xml_link_info="domotica_mqtt_client_1.2.0_linkInfo.xml" --rom_model -o "domotica_mqtt_client_1.2.0.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 domotica_mqtt_client_1.2.0.bin: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS/bin/armhex"  -o "domotica_mqtt_client_1.2.0.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/armhex"  -o "domotica_mqtt_client_1.2.0.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -169,13 +167,13 @@ domotica_mqtt_client_1.2.0.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "button_if.d" "gpio_if.d" "main.d" "network_common.d" "network_if.d" "pinmux.d" "startup_ccs.d" "timer_if.d" "uart_if.d" "Source\HelperClasses\ini.d" 
-	-$(RM) "button_if.obj" "gpio_if.obj" "main.obj" "network_common.obj" "network_if.obj" "pinmux.obj" "startup_ccs.obj" "timer_if.obj" "uart_if.obj" "Source\HelperClasses\ini.obj" 
+	-$(RM) "button_if.pp" "gpio_if.pp" "main.pp" "network_common.pp" "network_if.pp" "pinmux.pp" "startup_ccs.pp" "timer_if.pp" "uart_if.pp" "Source\HelperClasses\ini.pp" "Source\HelperClasses\parserIni.pp" 
+	-$(RM) "button_if.obj" "gpio_if.obj" "main.obj" "network_common.obj" "network_if.obj" "pinmux.obj" "startup_ccs.obj" "timer_if.obj" "uart_if.obj" "Source\HelperClasses\ini.obj" "Source\HelperClasses\parserIni.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "domotica_mqtt_client_1.2.0.out" "domotica_mqtt_client_1.2.0.bin" "C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS/bin/armofd" "C:/ti/ccsv6/tools/compiler/arm_15.12.3.LTS/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "domotica_mqtt_client_1.2.0.out" "domotica_mqtt_client_1.2.0.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_5.2.6/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents
